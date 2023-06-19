@@ -85,6 +85,6 @@ def lexical(str):
 
     #Conclusion || state yang di accept
     if state == "accept":
-        print('SEMUA TOKEN YANG DIINPUT : ', str, ', VALID')
+       result = 'Semua token yang di input valid'
 
-    return lexical
+    return result
