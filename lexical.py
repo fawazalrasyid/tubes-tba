@@ -2,7 +2,8 @@ import string
 
 def lexical(str):
     alphabet_list = list(string.ascii_lowercase)
-    state_list = ['q0', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13', 'q14']
+    state_list = ['q0', 'q1', 'q2', 'q3', 'q4', 'q5', 
+                  'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13', 'q14', 'q15']
     transition_table = {}
 
     # Transition definitions
@@ -13,50 +14,50 @@ def lexical(str):
             transition_table[(state, " ")] = "error"
 
     transition_table[("q0", " ")] = "q0"
-    transition_table[("q13", "#")] = "accept"
-    transition_table[("q13", " ")] = "q14"
     transition_table[("q14", "#")] = "accept"
-    transition_table[("q14", " ")] = "q14"
+    transition_table[("q14", " ")] = "q15"
+    transition_table[("q15", "#")] = "accept"
+    transition_table[("q15", " ")] = "q15"
 
     transition_table[("q0", "i")] = "q1"
-    transition_table[("q1", "n")] = "q13"
-    transition_table[("q13", " ")] = "q14"
-    transition_table[("q14", "i")] = "q1"
+    transition_table[("q1", "n")] = "q14"
+    transition_table[("q14", " ")] = "q15"
+    transition_table[("q15", "i")] = "q1"
 
     transition_table[("q0", "k")] = "q1"
     transition_table[("q1", "a")] = "q2"
     transition_table[("q2", "t")] = "q3"
-    transition_table[("q3", "a")] = "q13"
-    transition_table[("q13", " ")] = "q14"
-    transition_table[("q14", "k")] = "q1"
+    transition_table[("q3", "a")] = "q14"
+    transition_table[("q14", " ")] = "q15"
+    transition_table[("q15", "k")] = "q1"
 
-    transition_table[("q0", "a")] = "q13"
-    transition_table[("q13", " ")] = "q14"
-    transition_table[("q14", "a")] = "q13"
+    transition_table[("q0", "a")] = "q14"
+    transition_table[("q14", " ")] = "q15"
+    transition_table[("q15", "a")] = "q14"
 
-    transition_table[("q0", ":")]  = "q13"
-    transition_table[("q13", " ")] = "q14"
-    transition_table[("q14", ":")] = "q13"
+    transition_table[("q0", ":")]  = "q14"
+    transition_table[("q14", " ")] = "q15"
+    transition_table[("q15", ":")] = "q14"
 
-    transition_table[("q0", "p")] = "q17"
-    transition_table[("q17", "r")] = "q4"
-    transition_table[("q4", "i")] = "q5"
-    transition_table[("q5", "n")] = "q6"
-    transition_table[("q6", "t")] = "q7"
-    transition_table[("q7", "(")] = "q8"
-    transition_table[("q8", "k")] = "q9"
-    transition_table[("q9", "a")] = "q10"
-    transition_table[("q10", "t")] = "q11"
-    transition_table[("q11", "a")] = "q12"
-    transition_table[("q12", ")")] = "q13"
-    transition_table[("q13", " ")] = "q14"
-    transition_table[("q14", "p")] = "q17"
+    transition_table[("q0", "p")] = "q4"
+    transition_table[("q4", "r")] = "q5"
+    transition_table[("q5", "i")] = "q6"
+    transition_table[("q6", "n")] = "q7"
+    transition_table[("q7", "t")] = "q8"
+    transition_table[("q8", "(")] = "q9"
+    transition_table[("q9", "k")] = "q10"
+    transition_table[("q10", "a")] = "q11"
+    transition_table[("q11", "t")] = "q12"
+    transition_table[("q12", "a")] = "q13"
+    transition_table[("q13", ")")] = "q14"
+    transition_table[("q14", " ")] = "q15"
+    transition_table[("q15", "p")] = "q4"
 
     transition_table[("q0", "f")] = "q7"
     transition_table[("q7", "o")] = "q8"
-    transition_table[("q8", "r")] = "q13"
-    transition_table[("q13", " ")] = "q14"
-    transition_table[("q14", "f")] = "q7"
+    transition_table[("q8", "r")] = "q14"
+    transition_table[("q14", " ")] = "q15"
+    transition_table[("q15", "f")] = "q7"
 
     #Lexical Analysis
     idx_char = 0
@@ -65,7 +66,7 @@ def lexical(str):
     for current_char in (str.lower()+'#'):
         current_token += current_char
         state = transition_table[(state, current_char)]
-        if state == 'q13':
+        if state == 'q14':
             print('CURRENT TOKEN: ', current_token, ', VALID')
             current_token = ''
         if state == 'error':
