@@ -6,12 +6,10 @@ def process():
     string = input_string.get("1.0", tk.END).strip()
 
     parse_res = parser(string)
-    print(parse_res)
-    parse_output.insert(tk.END, string + "\n" + parse_res)
+    parse_output.insert(tk.END, parse_res)
 
     la_res = lexical(string)
-    print(la_res)
-    la_output.insert(tk.END, string + "\n" + la_res) 
+    la_output.insert(tk.END, la_res) 
 
 root = tk.Tk()
 root.title("TUBES TBA")
@@ -40,13 +38,11 @@ parse_label = tk.Label(root, text="Hasil Parse:")
 parse_label.grid(row=2, column=0, padx=5, sticky=tk.W) 
 parse_output = tk.Text(root, height=5, width=60)
 parse_output.grid(row=2, column=1, padx=5, sticky=tk.W)
-# parse_output.config(state=tk.DISABLED)
 
 # Membuat label untuk menampilkan hasil
 la_label = tk.Label(root, text="Hasil Lexical Analysis:")
 la_label.grid(row=3, column=0, padx=5, sticky=tk.W)
 la_output = tk.Text(root, height=5, width=60)
 la_output.grid(row=3, column=1, padx=5, sticky=tk.W)
-# la_output.config(state=tk.DISABLED)
 
 root.mainloop()

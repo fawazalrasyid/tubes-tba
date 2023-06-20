@@ -34,15 +34,6 @@ def parser(string):
     parse_table[('print_statement', 'a')] = ['error']
     parse_table[('print_statement', ':')] = [':']
     parse_table[('print_statement', 'print(kata)')] = ['print(kata)']
-    parse_table[('print_statement', '(')] = ['error']
-    parse_table[('print_statement', ')')] = ['error']
-
-    parse_table[('simbol', 'for')] = ['error']
-    parse_table[('simbol', 'kata')] = ['error']
-    parse_table[('simbol', 'in')] = ['error']
-    parse_table[('simbol', 'a')] = ['error']
-    parse_table[('simbol', ':')] = ['error']
-    parse_table[('simbol', 'print(kata)')] = ['print_statement']
 
     stack = ['#', 'statement']
     index_token = 0
@@ -60,7 +51,6 @@ def parser(string):
                 symbol = tokens[index_token]
                 if symbol == "EOS":
                     stack.pop()
-                    print('ISI STACK:', stack)
             else:
                 print('ERROR')
                 break
@@ -79,7 +69,6 @@ def parser(string):
             break
         print('ISI STACK:', stack)
         print()
-    print()
     
     if symbol == 'EOS' and len(stack) == 0:
         result = 'Diterima, Sesuai Grammar'
