@@ -60,14 +60,6 @@ def lexical(str):
     transition_table[("q28", " ")] = "q29"
     transition_table[("q29", "f")] = "q7"
 
-    transition_table[("q0", "(")] = "q28"
-    transition_table[("q28", " ")] = "q29"
-    transition_table[("q29", "(")] = "q28"
-
-    transition_table[("q0", ")")] = "q28"
-    transition_table[("q28", " ")] = "q29"
-    transition_table[("q29", ")")] = "q28"
-
     #Lexical Analysis
     idx_char = 0
     state = 'q0'
@@ -85,6 +77,8 @@ def lexical(str):
 
     #Conclusion || state yang di accept
     if state == "accept":
-       result = 'Semua token yang di input valid'
+        result = 'Semua token yang di input valid'
+    else:
+        result = 'Token yang di input tidak valid'
 
     return result

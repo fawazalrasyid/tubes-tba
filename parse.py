@@ -71,8 +71,8 @@ def parser(string):
         print()
     
     if symbol == 'EOS' and len(stack) == 0:
-        result = 'Diterima, Sesuai Grammar'
+        result = 'Diterima, sesuai grammar'
     else:
-        result = 'Tidak Diterima, Tidak Sesuai Grammar'
+        result = 'Tidak diterima, tidak sesuai grammar'
 
     return result
