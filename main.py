@@ -3,6 +3,10 @@ from parse import parser
 from lexical import lexical_analyzer
 
 def process():
+    # Menghapus teks pada label
+    la_output.delete("1.0", tk.END)
+    parse_output.delete("1.0", tk.END)
+
     # Mengambil teks dari input_string dan menghapus spasi di awal dan akhir
     string = input_string.get("1.0", tk.END).strip()
 
@@ -28,7 +32,7 @@ y_position = (screen_height // 2) - (window_height // 2)
 root.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
 
 # Membuat label dan entry untuk inputan
-input_label = tk.Label(root, text="Masukkan formula:")
+input_label = tk.Label(root, text="Masukkan Formula:")
 input_label.grid(row=0, column=0, sticky=tk.W)
 input_string = tk.Text(root, height=5, width=60)
 input_string.grid(row=0, column=1, padx=5, pady=5, sticky=tk.W)
