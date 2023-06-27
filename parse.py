@@ -1,78 +1,53 @@
-def parser(string):
-    tokens = string.split()
-    tokens.append("EOS")
+def parser(tokens):
+    # Inisialisasi variabel
+    current_token = None  # Token saat ini
+    index = -1  # Indeks token saat ini
+    error = False  # Menyimpan status kesalahan
 
-    non_terminals = ['statement', 'newVar', 'variable', 'print_statement']
-    terminals = ['for', 'kata', 'in', 'a', ':', 'print(kata)', 'EOS']
-
-    parse_table = {}
-
-    parse_table[('statement', 'for')] = ['for', 'newVar', 'in', 'variable', ':','print_statement']
-    parse_table[('statement', 'kata')] = ['newVar']
-    parse_table[('statement', 'in')] = ['error']
-    parse_table[('statement', 'a')] = ['variable']
-    parse_table[('statement', ':')] = [':']
-    parse_table[('statement', 'print(kata)')] = ['print_statement']
-
-    parse_table[('newVar', 'for')] = ['error']
-    parse_table[('newVar', 'kata')] = ['kata']
-    parse_table[('newVar', 'in')] = ['error']
-    parse_table[('newVar', 'a')] = ['error']
-    parse_table[('newVar', ':')] = ['error']
-    parse_table[('newVar', 'print(kata)')] = ['error']
-
-    parse_table[('variable', 'for')] = ['error']
-    parse_table[('variable', 'kata')] = ['error']
-    parse_table[('variable', 'in')] = ['error']
-    parse_table[('variable', 'a')] = ['a']
-    parse_table[('variable', ':')] = ['error']
-    parse_table[('variable', 'print(kata)')] = ['error']
-
-    parse_table[('print_statement', 'for')] = ['error']
-    parse_table[('print_statement', 'kata')] = ['error']
-    parse_table[('print_statement', 'in')] = ['error']
-    parse_table[('print_statement', 'a')] = ['error']
-    parse_table[('print_statement', ':')] = [':']
-    parse_table[('print_statement', 'print(kata)')] = ['print(kata)']
-
-    stack = ['#', 'statement']
-    index_token = 0
-    symbol = tokens[index_token]
-
-    while len(stack) > 0:
-        top = stack[len(stack) - 1]
-        print('TOP    =', top)
-        print('SYMBOL =', symbol)
-        if top in terminals:
-            print('TOP ADALAH SYMBOL TERMINAL')
-            if top == symbol:
-                stack.pop()
-                index_token += 1
-                symbol = tokens[index_token]
-                if symbol == "EOS":
-                    stack.pop()
-            else:
-                print('ERROR')
-                break
-        elif top in non_terminals:
-            print('TOP ADALAH SYMBOL NON-TERMINAL')
-            if parse_table[(top, symbol)][0] != 'error':
-                stack.pop()
-                symbol_to_be_pushed = parse_table[(top, symbol)]
-                for i in range(len(symbol_to_be_pushed)-1, -1, -1):
-                    stack.append(symbol_to_be_pushed[i])
-            else:
-                print('ERROR')
-                break
+    # Pindah ke token berikutnya
+    def advance():
+        nonlocal index, current_token
+        index += 1
+        if index < len(tokens):
+            current_token = tokens[index]
         else:
-            print('ERROR')
-            break
-        print('ISI STACK:', stack)
-        print()
-    
-    if symbol == 'EOS' and len(stack) == 0:
-        result = 'Diterima, sesuai grammar'
-    else:
-        result = 'Tidak diterima, tidak sesuai grammar'
+            current_token = None
 
-    return result
+    # Mem-parsing ekspresi
+    def expression():
+        term()
+        while current_token in [3, 4]:
+            advance()
+            term()
+
+    # Mem-parsing term
+    def term():
+        factor()
+        while current_token in [5, 6, 7, 8]:
+            advance()
+            factor()
+
+    # Mem-parsing faktor
+    def factor():
+        nonlocal error
+        if current_token in [1, 2]:
+            advance()
+        elif current_token == 9:
+            advance()
+            expression()
+            if current_token == 10:
+                advance()
+            else:
+                error = True
+        else:
+            error = True
+
+    # Memulai parsing
+    advance()
+    expression()
+
+    # Memeriksa apakah formula valid atau tidak
+    if not error and current_token is None:
+        return "Formula valid"
+    else:
+        return "Formula tidak valid"

@@ -1,16 +1,20 @@
 import tkinter as tk
 from parse import parser
-from lexical import lexical
+from lexical import lexical_analyzer
 
 def process():
+    # Mengambil teks dari input_string dan menghapus spasi di awal dan akhir
     string = input_string.get("1.0", tk.END).strip()
 
-    parse_res = parser(string)
-    parse_output.insert(tk.END, parse_res)
+    # Melakukan analisis leksikal pada string input menggunakan lexical_analyzer
+    tokens = lexical_analyzer(string)
+    la_output.insert(tk.END, tokens) 
 
-    la_res = lexical(string)
-    la_output.insert(tk.END, la_res) 
+    # Melakukan parsing menggunakan parser dengan tokens hasil analisis leksikal
+    parse_result = parser(tokens)
+    parse_output.insert(tk.END, parse_result)
 
+# Membuat jendela utama menggunakan modul tkinter
 root = tk.Tk()
 root.title("TUBES TBA")
 
@@ -24,7 +28,7 @@ y_position = (screen_height // 2) - (window_height // 2)
 root.geometry(f"{window_width}x{window_height}+{x_position}+{y_position}")
 
 # Membuat label dan entry untuk inputan
-input_label = tk.Label(root, text="Masukkan string:")
+input_label = tk.Label(root, text="Masukkan formula:")
 input_label.grid(row=0, column=0, sticky=tk.W)
 input_string = tk.Text(root, height=5, width=60)
 input_string.grid(row=0, column=1, padx=5, pady=5, sticky=tk.W)
@@ -34,15 +38,15 @@ process_button = tk.Button(root, text="Process", command=process)
 process_button.grid(row=1, column=1, padx=5, pady=5, sticky=tk.W)
 
 # Membuat label untuk menampilkan hasil
-parse_label = tk.Label(root, text="Hasil Parse:")
-parse_label.grid(row=2, column=0, padx=5, sticky=tk.W) 
-parse_output = tk.Text(root, height=5, width=60)
-parse_output.grid(row=2, column=1, padx=5, sticky=tk.W)
+la_label = tk.Label(root, text="Hasil Lexical Analysis:")
+la_label.grid(row=2, column=0, padx=5, sticky=tk.W)
+la_output = tk.Text(root, height=5, width=60)
+la_output.grid(row=2, column=1, padx=5, sticky=tk.W)
 
 # Membuat label untuk menampilkan hasil
-la_label = tk.Label(root, text="Hasil Lexical Analysis:")
-la_label.grid(row=3, column=0, padx=5, sticky=tk.W)
-la_output = tk.Text(root, height=5, width=60)
-la_output.grid(row=3, column=1, padx=5, sticky=tk.W)
+parse_label = tk.Label(root, text="Hasil Parse:")
+parse_label.grid(row=3, column=0, padx=5, sticky=tk.W) 
+parse_output = tk.Text(root, height=5, width=60)
+parse_output.grid(row=3, column=1, padx=5, sticky=tk.W)
 
 root.mainloop()
