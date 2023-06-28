@@ -2,8 +2,8 @@ import re
 
 # Pola regex untuk setiap token
 lexical_dict = {
-    r"-?\d+": ("Operan", 1),        # Bilangan bulat
     r"-?\d+\.\d+": ("Operan", 2),   # Bilangan riil
+    r"-?\d+": ("Operan", 1),        # Bilangan bulat
     r"\+": ("Operator", 3),         # Operator penjumlahan
     r"-": ("Operator", 4),          # Operator pengurangan
     r"x": ("Operator", 5),          # Operator perkalian
